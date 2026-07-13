@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-import geometry
+import helperMethods
 import pygame
 import handsigns
 import player
@@ -49,19 +49,32 @@ while running:
                 player1.deactivate_shield()
                 if(handsigns.fist(hand.landmark)):
                     player1.activate_shield()
+                    if(not player1.handSigns or player1.handSigns[-1] != "fist"):
+                        player1.handSigns.append("fist")
+                elif(handsigns.open(hand.landmark)):
+                    if(not player1.handSigns or player1.handSigns[-1] != "open"):
+                        player1.handSigns.append("open")
                 elif(handsigns.peace(hand.landmark)):
-                    player1.fireball(geometry.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
+                    player1.attack(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
                 elif(handsigns.index_point(hand.landmark)):
-                    player1.move(geometry.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
+                    player1.move(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
+                elif(handsigns.rock(hand.landmark)):
+                    player1.heal(1)
             else:
                 player2.deactivate_shield()
                 if(handsigns.fist(hand.landmark)):
                     player2.activate_shield()
+                    if(not player2.handSigns or player2.handSigns[-1] != "fist"):
+                        player2.handSigns.append("fist")
+                elif(handsigns.open(hand.landmark)):
+                    if(not player2.handSigns or player2.handSigns[-1] != "open"):
+                        player2.handSigns.append("open")
                 elif(handsigns.peace(hand.landmark)):
-                    player2.fireball(geometry.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
+                    player2.attack(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
                 elif(handsigns.index_point(hand.landmark)):
-                    player2.move(geometry.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
-    
+                    player2.move(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
+                elif(handsigns.rock(hand.landmark)):
+                    player2.heal(1)
     screen.fill((255, 255, 255))
     player1.update(player2)
     player2.update(player1)

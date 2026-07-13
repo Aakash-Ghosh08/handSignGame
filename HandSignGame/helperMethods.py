@@ -23,3 +23,18 @@ def angle(*landmarks):
 
     _, _, vt = np.linalg.svd(centered)
     return vt[0]
+
+def has_sequence(list, sequence):
+    seq_len = len(sequence)
+    for i in range(len(list) - seq_len + 1):
+        if list[i:i + seq_len] == sequence:
+            return True
+    return False
+
+def delete_sequence(list, sequence):
+    seq_len = len(sequence)
+    for i in range(len(list) - seq_len + 1):
+        if list[i:i + seq_len] == sequence:
+            del list[i:i + seq_len]
+            return True
+    return False

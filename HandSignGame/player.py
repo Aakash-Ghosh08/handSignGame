@@ -1,6 +1,7 @@
 import pygame
-from attack import attack
+from attack import fireball, lightening
 from constants import WIDTH, HEIGHT
+import helperMethods
 
 class player:
     def __init__(self, x, y, color, name="Player"):
@@ -15,6 +16,7 @@ class player:
         self.cooldown = 0
         self.health = 100
         self.isDead = False
+        self.handSigns = []
 
     def move(self, direction):
         self.x += direction[0] * self.speed
@@ -40,6 +42,9 @@ class player:
         if(self.health <= 0):
             self.color = (255, 0, 0)
             self.isDead = True
+            
+        if(len(self.handSigns) > 5):
+            self.handSigns.pop(0)            
         
     def activate_shield(self):
         self.shield = True
@@ -47,10 +52,14 @@ class player:
     def deactivate_shield(self):
         self.shield = False
         
-    def fireball(self, direction):
+    def attack(self, direction):
         if self.cooldown == 0:
             self.cooldown = 20
-            self.attacks.append(attack(self.x, self.y, direction))
+            if helperMethods.has_sequence(self.handSigns, ["fist", "open"]):
+                helperMethods.delete_sequence(self.handSigns, ["fist", "open"])
+                self.attacks.append(lightening(self.x, self.y, direction))
+            else:
+                self.attacks.append(fireball(self.x, self.y, direction))
             
     def damage(self, amount):
         if not self.shield:
@@ -60,9 +69,17 @@ class player:
             
     def checkCollision(self, other):
         for attack in other.attacks:
-            if ((self.x - attack.x) ** 2 + (self.y - attack.y) ** 2) ** 0.5 < self.radius + 10:
-                self.damage(10)
+            if ((self.x - attack.x) ** 2 + (self.y - attack.y) ** 2) ** 0.5 < self.radius + attack.radius():
+                if attack.type() == "fireball":
+                    self.damage(10)
+                elif attack.type() == "lightening":
+                    self.damage(50)
                 other.attacks.remove(attack)
+                
+    def heal(self, amount):
+        self.health += amount
+        if self.health > 100:
+            self.health = 100
 
     def draw(self, surface):
         #draw self
