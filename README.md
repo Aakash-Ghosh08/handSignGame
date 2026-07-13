@@ -9,7 +9,7 @@ Dependancies
 Mediapipe
 
 Platform
-Web browser
+Web browser eventually, pygame app for now
 
 Abilities
 Point to move
