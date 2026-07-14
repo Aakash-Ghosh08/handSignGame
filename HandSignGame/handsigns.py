@@ -1,4 +1,7 @@
 import helperMethods
+import math
+import numpy as np
+import helperMethods
 
 def fist(hand_landmarks):
     """
@@ -96,3 +99,57 @@ def three(hand_landmarks):
        not helperMethods.is_finger_straight(hand_landmarks, 17, 18, 19, 20)):
         return True
     return False
+
+def angle(a, b):
+    return math.degrees(math.atan2(b.y - a.y, b.x - a.x))
+
+def angle_diff(a1, a2):
+    """Returns the smallest angle between two angles."""
+    diff = abs(a1 - a2) % 360
+    return min(diff, 360 - diff)
+
+def angle_between_knuckles(hand_landmarks):
+    """
+    Calculates the angle between adjacent knuckles.
+
+    Args:
+        hand_landmarks: A list of hand landmarks.
+
+    Returns:
+        A list of angles (in degrees) between each pair of fingers.
+    """
+    finger_angles = [
+        angle(hand_landmarks[2], hand_landmarks[3]),    # thumb
+        angle(hand_landmarks[5], hand_landmarks[6]),    # index
+        angle(hand_landmarks[9], hand_landmarks[10]),   # middle
+        angle(hand_landmarks[13], hand_landmarks[14]),  # ring
+        angle(hand_landmarks[17], hand_landmarks[18])   # pinky
+    ]
+
+    return [
+        angle_diff(finger_angles[i], finger_angles[i + 1])
+        for i in range(4)
+    ]
+    
+def angle_between_tips(hand_landmarks):
+    """
+    Calculates the angle between adjacent fingertips.
+
+    Args:
+        hand_landmarks: A list of hand landmarks.
+
+    Returns:
+        A list of angles (in degrees) between each pair of fingertips.
+    """
+    finger_angles = [
+        angle(hand_landmarks[4], hand_landmarks[8]),    # thumb to index
+        angle(hand_landmarks[8], hand_landmarks[12]),   # index to middle
+        angle(hand_landmarks[12], hand_landmarks[16]),  # middle to ring
+        angle(hand_landmarks[16], hand_landmarks[20])   # ring to pinky
+    ]
+
+    return [
+        angle_diff(finger_angles[i], finger_angles[i + 1])
+        for i in range(3)
+    ]
+
