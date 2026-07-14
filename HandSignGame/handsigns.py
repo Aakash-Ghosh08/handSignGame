@@ -81,3 +81,18 @@ def rock(hand_landmarks):
        helperMethods.is_finger_straight(hand_landmarks, 17, 18, 19, 20)):
         return True
     return False
+
+def three(hand_landmarks):
+    """
+    Determines if the hand is making a three gesture.
+    
+    Args:
+        hand_landmarks: A list of hand landmarks.  
+    """
+    if(not helperMethods.is_finger_straight(hand_landmarks, 1, 2, 3, 4) and
+       helperMethods.is_finger_straight(hand_landmarks, 5, 6, 7, 8) and
+       helperMethods.is_finger_straight(hand_landmarks, 9, 10, 11, 12) and
+       helperMethods.is_finger_straight(hand_landmarks, 13, 14, 15, 16) and
+       not helperMethods.is_finger_straight(hand_landmarks, 17, 18, 19, 20)):
+        return True
+    return False

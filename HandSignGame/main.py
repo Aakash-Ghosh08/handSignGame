@@ -60,6 +60,8 @@ while running:
                     player1.move(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
                 elif(handsigns.rock(hand.landmark)):
                     player1.heal(1)
+                elif(handsigns.three(hand.landmark)):
+                    player1.teleport(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
             else:
                 player2.deactivate_shield()
                 if(handsigns.fist(hand.landmark)):
@@ -75,6 +77,8 @@ while running:
                     player2.move(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
                 elif(handsigns.rock(hand.landmark)):
                     player2.heal(1)
+                elif(handsigns.three(hand.landmark)):
+                    player2.teleport(helperMethods.angle(hand.landmark[5], hand.landmark[6], hand.landmark[7], hand.landmark[8]))
     screen.fill((255, 255, 255))
     player1.update(player2)
     player2.update(player1)

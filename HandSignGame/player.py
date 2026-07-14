@@ -17,6 +17,21 @@ class player:
         self.health = 100
         self.isDead = False
         self.handSigns = []
+        self.teleport_cooldown = 0
+        
+    def teleport(self, direction):
+        if self.teleport_cooldown == 0:
+            self.teleport_cooldown = 50
+            self.x += direction[0] * 100
+            self.y += direction[1] * 100
+            if(self.x < 0):
+                self.x = 0
+            elif(self.x > WIDTH):
+                self.x = WIDTH
+            if(self.y < 0):
+                self.y = 0
+            elif(self.y > HEIGHT):
+                self.y = HEIGHT
 
     def move(self, direction):
         self.x += direction[0] * self.speed
@@ -36,6 +51,10 @@ class player:
                 self.attacks.remove(attack)
                 
         self.cooldown = max(0, self.cooldown - 1)
+        if self.teleport_cooldown > 0:
+            self.teleport_cooldown -= 1
+            if self.teleport_cooldown < 0:
+                self.teleport_cooldown = 0
         
         self.checkCollision(other)
         
