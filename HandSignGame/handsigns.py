@@ -142,14 +142,14 @@ def angle_between_tips(hand_landmarks):
         A list of angles (in degrees) between each pair of fingertips.
     """
     finger_angles = [
-        angle(hand_landmarks[4], hand_landmarks[8]),    # thumb to index
-        angle(hand_landmarks[8], hand_landmarks[12]),   # index to middle
-        angle(hand_landmarks[12], hand_landmarks[16]),  # middle to ring
-        angle(hand_landmarks[16], hand_landmarks[20])   # ring to pinky
+        angle(hand_landmarks[2], hand_landmarks[4]),    # thumb
+        angle(hand_landmarks[5], hand_landmarks[8]),    # index
+        angle(hand_landmarks[9], hand_landmarks[12]),   # middle
+        angle(hand_landmarks[13], hand_landmarks[16]),  # ring
+        angle(hand_landmarks[17], hand_landmarks[20])   # pinky
     ]
 
     return [
         angle_diff(finger_angles[i], finger_angles[i + 1])
-        for i in range(3)
+        for i in range(4)
     ]
-

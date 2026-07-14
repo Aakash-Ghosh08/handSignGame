@@ -47,7 +47,6 @@ while running:
                 mp_hands.HAND_CONNECTIONS
             )
             if(hand.landmark[0].x < 0.5):
-                print(handsigns.angle_between_knuckles(hand.landmark))
                 player1.deactivate_shield()
                 if(handsigns.fist(hand.landmark)):
                     player1.activate_shield()
